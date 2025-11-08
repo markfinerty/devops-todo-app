@@ -1,0 +1,24 @@
+.env
+node_modules/
+# Terraform State Files
+terraform.tfstate
+terraform.tfstate.*.backup
+
+# Terraform Lock Files
+.terraform.tfstate.lock.info
+
+# Terraform Downloaded Providers and Modules
+.terraform/
+
+# Sensitive Variable Files
+*.tfvars
+
+# Saved Plan Files
+*.tfplan
+
+# Terraform Crash Logs
+crash.log
+
+# Terraform CLI Configuration Files (Optional)
+.terraformrc
+terraform.rc

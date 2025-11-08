@@ -1,0 +1,94 @@
+- name: Configure todo-api server
+  hosts: todo-api
+  become: true
+  vars:
+    app_dir: /app
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install required packages
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable
+        state: present
+        filename: docker
+
+    - name: Install Docker and compose plugin
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        state: latest
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Add ubuntu user to docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
+    - name: Create app directory
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: "0755"
+
+    - name: Create docker-compose.yml for todo API + Mongo
+      copy:
+        dest: "{{ app_dir }}/docker-compose.yml"
+        owner: ubuntu
+        group: ubuntu
+        mode: "0644"
+        content: |
+          services:
+            api:
+              image: markfinerty/devops-todo-app:latest
+              container_name: todo-api
+              depends_on:
+                - mongodb
+              environment:
+                - PORT=3000
+                - MONGO_URI=mongodb://mongodb:27017/simple_todo_api
+              ports:
+                - "3000:3000"
+            mongodb:
+              image: mongo:7
+              container_name: todo-mongodb
+              restart: unless-stopped
+              volumes:
+                - mongo-data:/data/db
+
+          volumes:
+            mongo-data:
+
+    - name: Pull and start containers
+      become: true
+      args:
+        chdir: "{{ app_dir }}"
+      shell: |
+        docker compose pull
+        docker compose up -d
