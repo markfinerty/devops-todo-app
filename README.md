@@ -1,4 +1,4 @@
-# Dockerized Todo API
+# 🐳 Dockerized Todo API
 
 A simple Node.js + Express REST API for managing a todo list, fully containerized with Docker and deployable to AWS EC2 using GitHub Actions.
 
@@ -10,7 +10,7 @@ Based on: https://roadmap.sh/projects/multi-container-service
 
 ---
 
-## Features
+## 🚀 Features
 
 - Express API with CRUD routes for todos (`/todos`)
 - MongoDB database integration
@@ -21,7 +21,7 @@ Based on: https://roadmap.sh/projects/multi-container-service
 
 ---
 
-## Environment Variables
+## 🔐 Environment Variables
 
 Local development uses `.env`:
 
@@ -34,7 +34,7 @@ Environment variables are set directly on the EC2 instance for production.
 
 ---
 
-## Docker Usage
+## 🐋 Docker Usage
 
 ### Build Locally
 
@@ -52,7 +52,7 @@ Visit: `http://localhost:3000/todos`
 
 ---
 
-## GitHub Actions CI/CD
+## ⚙️ GitHub Actions CI/CD
 
 On push to the **main** branch:
 
@@ -66,9 +66,9 @@ Workflow file: `.github/workflows/deploy.yml`
 
 ---
 
-## EC2 Server Setup
+## 🖥 EC2 Server Setup
 
-The EC2 host should have this file at `~/app/docker-compose.yml`:
+Ansible will create this, but the EC2 host should have this file at `~/app/docker-compose.yml`:
 
 ```
 services:
@@ -89,7 +89,7 @@ volumes:
 
 ---
 
-## API Endpoints
+## ✅ API Endpoints
 
 | Method | Route        | Description             |
 | ------ | ------------ | ----------------------- |
@@ -106,21 +106,20 @@ curl -X POST http://localhost:3000/todos   -H "Content-Type: application/json"  
 
 ---
 
-## Requirements
+## ☁️ Requirements
 
-- Docker and Docker Compose installed on EC2
-- EC2 security group allows inbound traffic on port 3000
 - GitHub secrets configured:
   - DOCKER_HUB_USERNAME
   - DOCKER_HUB_TOKEN
-  - EC2_HOST
+  - AWS_ACCESS_KEY_ID
+  - AWS_SECRET_ACCESS_KEY
+  - AWS_SSH_KEY_NAME
   - EC2_USER
   - EC2_SSH_KEY
-  - EC2_PORT _(optional)_
 
 ---
 
-## Infrastructure
+## 🧱 Infrastructure
 
 | Tool           | Purpose                              |
 | -------------- | ------------------------------------ |
