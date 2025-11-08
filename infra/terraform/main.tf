@@ -58,7 +58,7 @@ resource "aws_security_group" "todo_sg" {
   }
 }
 
-resource "aws_instance" "todo_server" {
+resource "aws_instance" "todo_api" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = var.instance_type
   key_name               = var.ssh_key_name
