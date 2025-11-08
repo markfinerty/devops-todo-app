@@ -10,6 +10,11 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
+variable "ssh_key_name" {
+  description = "Existing AWS key pair name to use for SSH"
+  type        = string
+}
+
 variable "allowed_ssh_cidr" {
   description = "CIDR allowed to SSH (lock this down to your IP)"
   type        = string
